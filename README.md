@@ -12,9 +12,9 @@
 
 | 踩坑 | 主题 | 时间 |
 |---|---|---|
-| [MySQL 5.5 共享表空间改独立表空间](pitfalls/mysql-innodb-file-per-table.md) | InnnoDB 表空间 / 数据重建 | 约 2022-06 |
-| [Linux 高负载：nf_conntrack 连接跟踪表溢出](pitfalls/linux-nf-conntrack-high-load.md) | 网络 / conntrack 调优 | 约 2025-04 |
-| [ES 集群节点版本不一致导致数据不同步](pitfalls/elasticsearch-node-version-mismatch.md) | 搜索引擎 / 节点版本 | 约 2023-01 |
+| [MySQL 5.5 共享表空间改独立表空间](pitfalls/MySQL共享表空间改独立表空间.md) | InnnoDB 表空间 / 数据重建 | 2022-06 |
+| [Linux 高负载：nf_conntrack 连接跟踪表溢出](pitfalls/Linux高负载nf_conntrack连接跟踪表溢出.md) | 网络 / conntrack 调优 | 2024-04 |
+| [ES 集群节点版本不一致导致数据不同步](pitfalls/ES集群节点版本不一致导致数据不同步.md) | 搜索引擎 / 节点版本 |  2023-01 |
 
 ### 2. 技术学习笔记 (Notes)
 
