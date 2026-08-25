@@ -1,6 +1,6 @@
 # Nacos 学习记录
 
-> 工程依托：`chaos-java/jdk8-platform/jdk8-nacos-demo`（注册中心 + 配置中心，多模块）。
+> 工程依托：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-nacos-demo)（`chaos-java` 仓库，注册中心 + 配置中心，多模块）。
 > 记录 Nacos 两大核心能力：服务注册发现、动态配置。
 
 ## 1. Nacos 的两个角色
@@ -66,5 +66,5 @@ public void registerListener() throws NacosException {
 
 ## 6. 参考来源
 
-- 工程：`chaos-java/jdk8-platform/jdk8-nacos-demo`（provider/consumer/config 三模块）
+- 工程：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-nacos-demo)（provider/consumer/config 三模块）
 - 同类配置中心对比：Apollo（更强调权限/灰度）、Spring Cloud Config（Git 后端，无动态推送）

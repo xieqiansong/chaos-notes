@@ -1,6 +1,6 @@
 # Kafka 学习记录
 
-> 工程依托：`chaos-java/jdk8-platform/jdk8-kafka-demo`（Spring Kafka，21 场景全带测试）。
+> 工程依托：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-kafka-demo)（`chaos-java` 仓库，Spring Kafka，21 场景全带测试）。
 > 记录 Kafka 的核心机制、关键 API 与学习踩坑点。配置/事务/重试部分直接对应 demo 代码。
 
 ## 1. 消息模型与核心概念
@@ -85,5 +85,5 @@ DefaultErrorHandler errorHandler = new DefaultErrorHandler(recoverer, new FixedB
 
 ## 7. 参考来源
 
-- 工程：`chaos-java/jdk8-platform/jdk8-kafka-demo`
+- 工程：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-kafka-demo)
 - Spring Kafka 官方文档（错误处理、`KafkaAdmin` 自动建 Topic）

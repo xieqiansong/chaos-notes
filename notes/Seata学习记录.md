@@ -1,6 +1,6 @@
 # Seata 学习记录
 
-> 工程依托：`chaos-java/jdk8-platform/jdk8-seata-demo`（AT + TCC 两种模式，多进程）。
+> 工程依托：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（`chaos-java` 仓库，AT + TCC 两种模式，多进程）。
 > 记录分布式事务的核心思路、AT/TCC 差异与落地要点。
 
 ## 1. 为什么需要分布式事务
@@ -64,5 +64,5 @@ public String purchase(String userId, String productId, double amount, int count
 
 ## 6. 参考来源
 
-- 工程：`chaos-java/jdk8-platform/jdk8-seata-demo`（AT: `at/`、TCC: `tcc/`）
+- 工程：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（AT: `at/`、TCC: `tcc/`）
 - 与 RocketMQ 事务消息、Kafka 事务的关系：三者都在解决「跨资源一致性」，但层次不同（见 Kafka/ RocketMQ 学习记录）

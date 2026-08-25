@@ -23,6 +23,7 @@ chaos-notes/
 1. **不主动提交/推送**。除非用户明确要求，否则不执行 `git add`、`git commit`、`git push`。
 2. **授权不明的项目禁展示**。来源与授权存疑的代码/内容，只做**技术性归纳**（提炼思路、匿名处理），不展示源码。
 3. **内容精简**。每篇笔记聚焦一个主题，避免冗长堆砌。
+4. **目录引用一律走 GitHub 地址，禁止本地路径**。本仓库所有笔记中提及的工程/代码目录（如 `chaos-java` 下的 demo 工程），必须使用完整 GitHub 链接 `[名称](https://github.com/xieqiansong/chaos-java/tree/main/...)`，不得写成本地相对路径或裸仓库路径（如 `chaos-java/jdk8-platform/jdk8-xxx-demo`）。新增或改写笔记时，凡出现工程目录引用，默认换算为对应 GitHub 链接。
 
 ## 写作约定
 
