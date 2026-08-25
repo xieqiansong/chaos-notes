@@ -10,7 +10,7 @@
 
 - 框架：Spring Boot 2.7、Spring Data Redis（Lettuce）
 - 中间件：Redis 8（RESP3 回值）
-- 关联工程：[chaos-java/jdk8-platform/jdk8-ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo)（可 clone 复现：`mvn clean package` 后 `--ratelimiter.bench.enabled=true` 跑压测）
+- 关联工程：[chaos-java/jdk8-platform/jdk8-ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo)（可 clone 复现：`mvn test` 即一键跑完整基准并自动生成报告，详见工程内 `TEST_REPORT.md`）
 
 ## 背景
 
@@ -44,25 +44,52 @@
 
 ## 压测方案与指标
 
-- 三档实现对照；指标：吞吐（放行/s）、延迟 avg/p99、`redis/s`（Redis 调用频率）、`overLimit%`（实际放行相对理论限额偏差，负=欠用）、本地命中率。
-- 场景：未超限、超限、burst 敏感、流量倾斜、满速 flood。
+基准已做成 **SpringBootTest 一键跑**：场景矩阵在工程 [BenchMarkTest](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo/src/test/java/lan/chaos/ratelimiter/BenchMarkTest.java) 定义，`mvn test` 即跑完并自动写出 markdown，对应工程 `TEST_REPORT.md`。
 
-### 实测（本机 Redis，8 线程）
+- 指标：`avg / p99`（µs）；`redis/s`（Redis 调用频率，含 EVAL/EVALSHA）；`overLimit%`（实际放行相对理论限额偏差，正=超限、负=欠用）。
+- 三档实现对照；场景：未超限（A）、超限（B）、burst 敏感、流量倾斜（skew）、满速 flood。
+- 每场景前自动 `flushDb` 隔离 key 残留；压测引擎 [BenchEngine](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo/src/main/java/lan/chaos/ratelimiter/bench/BenchEngine.java) 供命令行与测试共用。
 
-| 维度 | redis-lua | local-redis |
-|---|---|---|
-| 超限场景 avg / p99 | 1080µs / 2370µs | **169µs / 19.8µs** |
-| 吞吐上限（flood） | 9.7 万 req/s | **7400 万 req/s（≈769×）** |
-| Redis 调用 | 每请求 1 次（≈9666/s） | 每窗口×节点（≈4.4/s，**≈1/2200**） |
-| 精度损失 overLimit% | +4.2% | +10.6%（burst 1.5） |
+### 实测一：三实现基准对照（本机 Redis 8、8 线程）
 
-辅助结论：`overLimit%` 随 burst 单调（1.0 → -7.8%、1.5 → +10.6%、3.0 → +25.0%）；流量倾斜 skew=0.8 → -29.5%（欠用），印证均分 N 的短板，引导「按负载加权分配」。
+| 场景 | 模式 | avg(µs) | p99(µs) | redis/s | overLimit% |
+|---|---|---|---|---|---|
+| A 未超限（qps=500） | redis-lua | 6775 | 13622 | 499 | -49.9 |
+| A 未超限（qps=500） | local-redis | 33 | 42 | 4.8 | -49.9 |
+| B 超限（qps=2000） | redis-lua | 7661 | 13007 | 1042 | +4.4 |
+| B 超限（qps=2000） | local-redis | **8** | **16** | 4.8 | +22.8 |
+| B burst=1.0 | local-redis | 8 | 8 | 5.0 | +13.9 |
+| B burst=3.0 | local-redis | 7 | 3 | 5.0 | +39.7 |
+| B skew=0.8 | local-redis | 11 | 34 | 5.6 | -24.3 |
+| flood | redis-lua | 8164 | 16241 | 978 | -2.0 |
+| flood | local-redis | **0.5** | 0.6 | 5.6 | +78.1 |
+
+要点：
+- **热路径近零开销**：超限 B 场景 `local-redis` avg 8µs / p99 16µs（对照 `redis-lua` 7661µs / 13007µs），flood 下更是 0.5µs vs 8164µs——差 3~4 个数量级。
+- **Redis 负载骤降**：调用频率从「≈请求数/秒」（~1000/s）降到「≈每窗口×租户×节点」（≈5/s）。
+- **精度可解释可调**：`overLimit%` 随 burst 单调（1.0→+14%、1.5→+23%、3.0→+40%）；倾斜 skew=0.8 → -24.3%（欠用），印证「均分 N」的短板，引导按负载加权分配。
+
+### 实测二：window-ms 对精度的取舍（local-redis，nodes=4，burst=1.5，qps=2000>limit=1000）
+
+| window-ms | avg(µs) | redis/s | overLimit% | 说明 |
+|---|---|---|---|---|
+| 250 | 6 | 17.0 | **-2.1** | 校准最勤，几乎不超限；Redis 成本最高 |
+| 500 | 7 | 9.0 | +2.6 | — |
+| 1000（默认） | 8 | 4.8 | +22.8 | 成本/精度均衡 |
+| 2000 | 6 | 3.2 | +32.4 | 窗口变大，超限上升 |
+| 4000 | 6 | **2.6** | **+70.3** | 校准最稀，Redis 成本最低，超限明显放大 |
+
+要点：
+- **成本随窗口单调下降**：`redis/s` 从 17.0 → 2.6（约 6.5×），窗口越大越省 Redis——这是调大窗口的直接动机。
+- **精度随窗口单调恶化**：`overLimit%` 从 -2.1% → +70.3%，窗口越大、错配持续越久、权威纠正越晚，超发越重。
+- **热路径延迟几乎不变**（6~8µs）：窗口只作用于「精度-成本」轴，不进热路径，调参不牺牲首层性能。
+- **非越大越好**：4000ms 超发严重（+70%）且对突发响应迟钝；250ms 欠用兼成本高 → 默认 1000ms 是便宜又稳的折中点。
 
 ## 结论
 
-- **高性能达成**：热路径近零开销（avg 169µs / p99 19.8µs），flood 吞吐提升约两个数量级。
-- **Redis 负载骤降**：调用频率从「每请求」降到「每窗口×租户×节点」（≈1/2200）。
-- **精度可解释可调**：损失上界与 burst 强相关、随 burst 单调，决策可量化。
+- **高性能达成**：超限场景 `local-redis` avg 8µs / p99 16µs（对照 `redis-lua` 呈 3~4 个数量级优势），flood 下 0.5µs vs 8164µs。
+- **Redis 负载骤降**：调用频率从「每请求」（~1000/s）降到「每窗口×租户×节点」（≈5/s）。
+- **精度可解释可调**：超限上界与 `burst`、`window-ms` 均强相关且单调（实测一 burst、实测二 window 均证），决策可量化。
 
 ## 后续增强
 
