@@ -1,25 +1,41 @@
 # Seata 学习记录
 
-> 工程依托：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（`chaos-java` 仓库，AT + TCC 两种模式，多进程）。
-> 记录分布式事务的核心思路、AT/TCC 差异与落地要点。
+工程依托：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（`chaos-java` 仓库，AT + TCC 两种模式，多进程）。
 
-## 1. 为什么需要分布式事务
+微服务下「扣款 / 下单 / 扣库存」分属不同库，本地事务互不感知，需要协调者保证要么全成、要么全回滚。Seata 就是这个协调框架，核心是 TC（协调者）+ TM（发起方）+ RM（各分支）。
 
-单体应用一个 `@Transactional` 就能回滚；微服务下「扣款 / 下单 / 扣库存」分属不同库，本地事务互不感知，需要**协调者**保证要么全成、要么全回滚。Seata 就是这个协调框架。
+## 1. 安装
 
-## 2. 角色与流程
+TC 服务端，`seata-server:1.6.1`，standalone 用 `file` 模式（注册/配置/存储都是 file，演示够用）。控制台 `7091` 映射 `30106`，事务协调端口 `8091` 映射 `30107`。
 
-- **TC（Transaction Coordinator）**：独立服务端，维护全局事务状态、下发提交/回滚。
-- **TM（Transaction Manager）**：发起方（`@GlobalTransactional` 标注的方法）。
-- **RM（Resource Manager）**：各分支事务，注册分支、执行本地事务、记录回滚日志。
+`docker-compose.yml`：
 
-全局事务流程：TM 向 TC 申请 XID → 各 RM 注册分支并执行（记 `undo_log`）→ 全成功 TC 通知提交（异步清 undo_log）/ 任一失败 TC 通知按 undo_log 反向补偿。
+```yaml
+services:
+  # ==================== Seata Server（TC） ====================
+  seata-server:
+    image: seataio/seata-server:1.6.1
+    container_name: seata-server
+    restart: unless-stopped
+    ports:
+      - "30106:7091"   # Web 控制台（查看全局事务日志）  ← 外层统一端口
+      - "30107:8091"   # 事务协调端口（TM / RM 通信）   ← 外层统一端口
+    environment:
+      - SEATA_REGISTRY_TYPE=file
+      - SEATA_CONFIG_TYPE=file
+      - STORE_MODE=file
+      - SEATA_PORT=8091          # 容器内 TC 监听端口（默认即 8091，显式写明更清晰）
+      # 控制台端口已由镜像内置为 7091，无需再通过 SEATA_PORT 覆盖
+```
 
-## 3. AT 模式（默认推荐）
+`docker-compose up -d` 起来，控制台 `http://<ubuntu-ip>:30106`。业务应用连 TC 用 `localhost:30107`（事务协调端口）。下面命令行在 ubuntu 宿主机执行，控制台 API 走 `30106`。
 
-`BusinessService.purchase` 用 `@GlobalTransactional` 编排：
+## 2. AT 模式（默认推荐）
+
+AT 对业务侵入小：只需加 `@GlobalTransactional` 注解 + 各分支库建 `undo_log` 表。Seata 自动记前后镜像，提交时清 undo_log，回滚时按 undo_log 反向补偿。
 
 ```java
+// TM 发起方：一个注解编排三个分支（扣款 / 下单 / 扣库存）
 @GlobalTransactional(timeoutMills = 300000, rollbackFor = Exception.class)
 public String purchase(String userId, String productId, double amount, int count) {
     accountService.deduct(userId, amount);   // RM：扣款 + 记 undo_log
@@ -29,25 +45,49 @@ public String purchase(String userId, String productId, double amount, int count
 }
 ```
 
-**AT 原理**：
-- 执行前快照 `before image`、执行后快照 `after image`，写入 `undo_log`；提交时异步删 undo_log，回滚时按 undo_log 反向补偿。
-- 对业务代码**侵入小**（只需加注解 + 建 undo_log 表），适合多数场景。
+```bash
+# 对应 Seata 指令（控制台 API，查看全局事务状态）
+# 查看全局事务列表（state: Begin/Committing/Rollbacking）
+curl -X GET 'http://localhost:30106/v1/transaction/global/list?pageNum=1&pageSize=10'
 
-**坑点**：
-- `purchaseFail` 中捕获异常后**必须继续向外抛**，否则 `@GlobalTransactional` 感知不到、不会回滚。
-- AT 有全局锁，热点行竞争激烈时性能下降；跨库类型（如非关系型）不支持。
+# 查看某全局事务详情（替换为实际 xid）
+curl -X GET 'http://localhost:30106/v1/transaction/global?xid=xxx'
+```
 
-## 4. TCC 模式（手动三阶段）
+> 坑：异常被 catch 后**必须继续向外抛**，否则 `@GlobalTransactional` 感知不到、不会回滚；`undo_log` 表漏建则无法回滚。
 
-`jdk8-seata-demo` 的 `tcc` 包用 `TwoPhaseBusinessAction` 实现 `Try/Confirm/Cancel`：
+## 3. TCC 模式（手动三阶段）
 
-- **Try**：资源预留（如冻结金额、预占库存），不做真正扣减。
-- **Confirm**：Try 全成功后真正提交（需幂等）。
-- **Cancel**：任一 Try 失败释放预留（需幂等）。
+TCC 无全局锁、高并发友好，但要手写 `Try/Confirm/Cancel`。`tcc` 包里 `AccountTccAction` / `OrderTccAction` / `StorageTccAction` 对应三个服务的动作，`BusinessTccService` 编排。
 
-`AccountTccAction` / `OrderTccAction` / `StorageTccAction` 分别对应三个服务的 TCC 动作，`BusinessTccService` 编排。
+```java
+// 每个动作接口用 @TwoPhaseBusinessAction 声明两阶段方法
+@LocalTCC
+public interface AccountTccAction {
+    @TwoPhaseBusinessAction(name = "accountTccAction", commitMethod = "commit", rollbackMethod = "rollback")
+    boolean prepare(BusinessActionContext ctx, String userId, double amount); // Try：冻结金额
+    boolean commit(BusinessActionContext ctx);   // Confirm：真正扣减（需幂等）
+    boolean rollback(BusinessActionContext ctx); // Cancel：释放冻结（需幂等）
+}
 
-**AT vs TCC**：
+// 编排：调用各 prepare，全部成功 Seata 自动调 confirm，任一失败调 cancel
+public String purchase(String userId, String productId, double amount, int count) {
+    accountTccAction.prepare(ctx, userId, amount);
+    orderTccAction.prepare(ctx, userId, productId, amount);
+    storageTccAction.prepare(ctx, productId, count);
+    return orderNo;
+}
+```
+
+```bash
+# 对应 Seata 指令（TCC 同样走全局事务，状态查看同上）
+curl -X GET 'http://localhost:30106/v1/transaction/global/list?pageNum=1&pageSize=10'
+```
+
+> Confirm/Cancel 必须幂等（网络重试会重复调）；TCC 适合跨异构资源、高并发、长事务。
+
+## 4. AT vs TCC
+
 | 维度 | AT | TCC |
 |---|---|---|
 | 侵入 | 低（注解 + undo_log 表） | 高（手写 Try/Confirm/Cancel） |
@@ -55,14 +95,14 @@ public String purchase(String userId, String productId, double amount, int count
 | 一致性 | 最终一致（补偿） | 最终一致（补偿） |
 | 适用 | 绝大多数内部 DB 事务 | 跨异构资源、高并发、长事务 |
 
-## 5. 学习踩坑点
+## 5. 几个注意点
 
-- **undo_log 表必须存在**：AT 模式依赖各分支库的 `undo_log`，漏建表事务无法回滚。
+- **undo_log 表必须存在**：AT 依赖各分支库的 `undo_log`，漏建表事务无法回滚。
 - **Confirm/Cancel 必须幂等**：网络重试会重复调用，重复执行不能产生副作用。
 - **超时自动回滚**：`@GlobalTransactional(timeoutMills)` 默认 60s，长事务要调大，否则被 TC 强制回滚。
 - **XID 透传**：跨服务调用要把 XID 传下去（Spring Cloud 用 `SeataFilter`/`RestTemplate` 拦截器），否则下游 RM 不在同一全局事务。
 
-## 6. 参考来源
+## 参考来源
 
 - 工程：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（AT: `at/`、TCC: `tcc/`）
-- 与 RocketMQ 事务消息、Kafka 事务的关系：三者都在解决「跨资源一致性」，但层次不同（见 Kafka/ RocketMQ 学习记录）
+- 与 RocketMQ 事务消息、Kafka 事务的关系：三者都在解决「跨资源一致性」，但层次不同（见 Kafka / RocketMQ 学习记录）
