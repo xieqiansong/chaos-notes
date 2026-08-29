@@ -34,8 +34,8 @@ services:
 spring.datasource.platform=postgresql
 db.num=1
 db.url.0=jdbc:postgresql://<postgresql-host>:30101/demo_nacos?currentSchema=public
-db.user.0=postgres
-db.password.0=postgres123
+db.user.0=<your-user>
+db.password.0=<your-password>
 db.pool.config.driverClassName=org.postgresql.Driver
 db.pool.config.connectionTimeout=30000
 db.pool.config.validationTimeout=10000
