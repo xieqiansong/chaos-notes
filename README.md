@@ -20,6 +20,7 @@
 | [Redis 批量入库：自适应批量大小](performance/Redis批量入库-自适应批量大小.md) | 批量入库 / 攒批、在线寻优、命令量降千倍 | 2023-09 |
 | [秒杀链路压测与优化](performance/秒杀链路压测与优化.md) | 秒杀 / Lua 分桶扣减、Kafka 削峰、双层限流压测 | 2026-08 |
 | [短链缓存命中率与防穿透压测](performance/短链缓存命中率与防穿透压测.md) | 短链 / 布隆过滤器防穿透、缓存命中率压测 | 2026-08 |
+| [热路径 Servlet Filter 异步化：高频接口绕过 SpringMVC](performance/热路径Filter异步化-高频接口绕过SpringMVC.md) | 网关/接入层 / 提前返回、绕过 MVC、独立线程池异步落库 | 2026-09 |
 
 ### 2. 踩坑记录 (Pitfalls)
 
