@@ -50,8 +50,30 @@
 | [JDK8 内核与并发内功](notes/JDK8内核与并发内功.md) | 学习进度 / JUC/JVM/Agent/Paxos、能力地图 | 2026-05-02 |
 | [JDK8 到 25 新特性演进](notes/JDK8到25新特性演进.md) | 学习进度 / 虚拟线程、密封类、版本跟进 | 2026-04-15 |
 | [MySQL UDF 插件实现 SM4 加解密](notes/MySQL-UDF插件实现SM4加解密.md) | MySQL 插件 / C 编写 UDF、SM4 ECB 加解密、编译与注册 | 2024-05-26 |
+| [本地缓存学习记录](notes/本地缓存学习记录.md) | 本地缓存 / Caffeine、TTL、W-TinyLFU、@Cacheable | 2026-07-20 |
+| [Sentinel 学习记录](notes/Sentinel学习记录.md) | 流控 / QPS·WarmUp·关联、熔断降级、热点参数、@SentinelResource | 2026-08-24 |
+| [Elasticsearch 学习记录](notes/Elasticsearch学习记录.md) | 搜索引擎 / 索引、文档、搜索、聚合 | 2026-07-21 |
+| [ZooKeeper 学习记录](notes/ZooKeeper学习记录.md) | 协调 / 分布式锁、Leader 选举、配置中心+Watcher | 2026-08-20 |
+| [Spring Security 学习记录](notes/SpringSecurity学习记录.md) | 认证授权 / 过滤器链、JWT、OAuth2 资源服务器 | 2026-08-24 |
+| [MyBatis-Plus 学习记录](notes/MyBatis-Plus学习记录.md) | ORM / Wrapper、分页、逻辑删除+乐观锁、多租户、动态表名、AES | 2026-07-23 |
+| [加密与国密学习记录](notes/加密与国密学习记录.md) | 加密 / AES、RSA、SHA-256、SM2/SM3/SM4 | 2026-07-22 |
+| [序列化学习记录](notes/序列化学习记录.md) | 序列化 / JDK 原生、Jackson、Kryo 对比 | 2026-07-22 |
+| [定时任务学习记录](notes/定时任务学习记录.md) | 调度 / @Scheduled、Quartz、XXL-JOB | 2026-07-22 |
+| [MapStruct 学习记录](notes/MapStruct学习记录.md) | 对象映射 / 基础、集合、嵌套、自定义映射 | 2026-08-29 |
+| [Spring Boot Starter 学习记录](notes/SpringBootStarter学习记录.md) | 自动装配 / @ConfigurationProperties、条件装配、命名约定 | 2026-08-20 |
+| [单元测试学习记录](notes/单元测试学习记录.md) | 测试 / Mockito、参数匹配、行为验证、切片测试 | 2026-07-22 |
+| [PDF 处理学习记录](notes/PDF处理学习记录.md) | Office / PDFBox 绘制、字体嵌入、提取、合并拆分 | 2026-09-04 |
+| [Excel 处理学习记录](notes/Excel处理学习记录.md) | Office / POI、EasyExcel、Hutool、大文件流式、横评 | 2026-09-04 |
+| [Word 处理学习记录](notes/Word处理学习记录.md) | Office / POI XWPF、模板填充、跨 run 坑 | 2026-09-04 |
+| [位图统计学习记录](notes/位图统计学习记录.md) | 统计 / Bitmap 压缩、大 key 拆分、HyperLogLog UV | 2026-09-04 |
+| [Flink CDC 学习记录](notes/FlinkCDC学习记录.md) | 数据同步 / MySQL Binlog、全量+增量、断点续传 | 2026-08-26 |
+| [HMAC 鉴权学习记录](notes/HMAC鉴权学习记录.md) | 鉴权 / HMAC 无状态签名、防重放、密钥轮换 | 2026-09-04 |
+| [MCP 服务学习记录](notes/MCP服务学习记录.md) | AI / MCP 服务端、SSE 传输、工具共享 | 2026-09-02 |
+| [Spring AI 学习记录](notes/SpringAI学习记录.md) | AI / 对话、流式、记忆、结构化输出、工具、RAG、MCP | 2026-09-02 |
+| [接口幂等学习记录](notes/接口幂等学习记录.md) | 幂等 / 请求级、消费级、状态机级三层去重 | 2026-08-26 |
+| [多级缓存学习记录](notes/多级缓存学习记录.md) | 缓存 / Caffeine+Redis Hash+版本号一致性 | 2026-08-26 |
 
-> 内容整理中，低敏起步、逐篇沉淀。
+> 以上 22 篇由 `chaos-java` 各 demo 模块提炼而成（工程依托均指向对应模块 GitHub 链接）。内容整理中，低敏起步、逐篇沉淀。
 
 ## 目录规划
 
