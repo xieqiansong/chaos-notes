@@ -1,6 +1,6 @@
 # Kafka 学习记录
 
-工程依托：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-kafka-demo)（`chaos-java` 仓库，Spring Kafka，21 场景全带测试）。
+工程依托：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-mq/jdk8-kafka-demo)（`chaos-java` 仓库，Spring Kafka，21 场景全带测试）。
 
 ## 1. 安装（KRaft 单节点）
 
@@ -179,5 +179,5 @@ public DefaultErrorHandler errorHandler(KafkaTemplate<String, String> kt) {
 
 ## 参考来源
 
-- 工程：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-kafka-demo)
+- 工程：[jdk8-kafka-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-mq/jdk8-kafka-demo)
 - Spring Kafka 官方文档（错误处理、`KafkaAdmin` 自动建 Topic）

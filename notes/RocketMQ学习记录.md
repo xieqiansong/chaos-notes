@@ -1,6 +1,6 @@
 # RocketMQ 学习记录
 
-工程依托：[jdk8-rocketmq-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-rocketmq-demo)（`chaos-java` 仓库，覆盖 RocketMQ 常用能力维度的 Spring Boot Demo，所有场景由 `DemoTest` 统一触发）。
+工程依托：[jdk8-rocketmq-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-mq/jdk8-rocketmq-demo)（`chaos-java` 仓库，覆盖 RocketMQ 常用能力维度的 Spring Boot Demo，所有场景由 `DemoTest` 统一触发）。
 
 版本：`rocketmq-client 4.9.8` + `rocketmq-spring-boot-starter 2.2.3` + `spring-boot 2.7.18` + JDK 8。
 
@@ -252,4 +252,4 @@ mqadmin getBrokerConfig -n localhost:9876 -b 192.168.x.x:10911 | grep enableProp
 ## 参考来源
 
 - [RocketMQ 官方文档](https://rocketmq.apache.org/)
-- 关联工程：[jdk8-rocketmq-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-rocketmq-demo)
+- 关联工程：[jdk8-rocketmq-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-mq/jdk8-rocketmq-demo)
