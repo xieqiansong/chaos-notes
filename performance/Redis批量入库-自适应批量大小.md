@@ -1,6 +1,6 @@
 # Redis 批量入库：自适应批量大小（攒批 + 在线寻优）
 
-> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/jdk8-platform/jdk8-batch-ingest-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-batch-ingest-demo)。
+> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/persistence/batch-ingest-demo](https://github.com/xieqiansong/chaos-java/tree/master/persistence/batch-ingest-demo)。
 
 高吞吐数据汇聚场景（探针/日志/埋点这种），每条数据一次 Redis 写命令。命令数随数据量线性放大，网络往返和 Redis CPU 双双成了瓶颈。想靠固定批量 + Pipeline 优化，又卡在最优批量依赖负载和并发、很难人工定死。
 
@@ -31,7 +31,7 @@
 
 ## 压测方案
 
-基准做成 **SpringBootTest 一键跑**：场景矩阵在工程 [BenchMarkTest](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-batch-ingest-demo/src/test/java/lan/chaos/batchwriter/bench/BenchMarkTest.java) 定义，`mvn test` 跑完 6 场景 + 60s 收敛专项并自动写出 markdown（`target/bench-results.md` + 工程 `TEST_REPORT.md`）。
+基准做成 **SpringBootTest 一键跑**：场景矩阵在工程 [BenchMarkTest](https://github.com/xieqiansong/chaos-java/tree/master/persistence/batch-ingest-demo/src/test/java/lan/chaos/batchwriter/bench/BenchMarkTest.java) 定义，`mvn test` 跑完 6 场景 + 60s 收敛专项并自动写出 markdown（`target/bench-results.md` + 工程 `TEST_REPORT.md`）。
 
 - 指标：`items/s`（写入吞吐）、`redisCmds/s`（Redis 往返数，legacy=条目数、批量≈批次数）、`avgBatch`（平均批量）、`dropped`（队列满丢弃）、`errors`（写失败）。
 - 三实现对照：`legacy`（逐条直写）/ `static`（固定批 512 + Pipeline）/ `adaptive`（攒批 + 在线寻优）。
@@ -104,5 +104,5 @@
 
 ## 参考来源
 
-- 关联工程：[chaos-java/jdk8-platform/jdk8-batch-ingest-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-batch-ingest-demo)
+- 关联工程：[chaos-java/persistence/batch-ingest-demo](https://github.com/xieqiansong/chaos-java/tree/master/persistence/batch-ingest-demo)
 - 实现要点全部来自该工程真实开发与压测过程（含踩坑记录，见工程 `TEST_REPORT.md`）

@@ -1,15 +1,15 @@
 # Spring Security 学习记录
 
-工程依托：[jdk8-security-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-security-demo)（`chaos-java` 仓库，Spring Boot 2.7 + spring-boot-starter-security + jjwt 0.11.5 + oauth2-resource-server，用一个样例用户 `alice` 串起三类方案）。
+工程依托：[microservice/security-demo](https://github.com/xieqiansong/chaos-java/tree/main/microservice/security-demo)（`chaos-java` 仓库，Spring Boot 2.7 + spring-boot-starter-security + jjwt 0.11.5 + oauth2-resource-server，用一个样例用户 `alice` 串起三类方案）。
 
 ## 1. 安装
 
 ```bash
 # 单元测试（MockMvc，零外部依赖）
-mvn -pl jdk8-security-demo test
+mvn -pl microservice/security-demo test
 
 # 启动应用用 curl 把玩四个端点
-mvn -pl jdk8-security-demo spring-boot:run
+mvn -pl microservice/security-demo spring-boot:run
 curl localhost:8080/api/public
 curl -u alice:secret localhost:8080/api/secure
 curl -X POST "localhost:8080/api/token?user=alice"            # 返回 "Bearer <jwt>"
@@ -45,7 +45,7 @@ OAuth2 资源服务器需外部 IdP，提供 `docker-compose.yml`（Keycloak）�
 ## 踩坑
 
 - **无状态必须 `STATELESS`**：否则仍建 Session，分布式下状态不一致。
-- **密码存储**：`{bcrypt}`/`Argon2`，绝明文（见 `jdk8-crypto-demo`）。
+- **密码存储**：`{bcrypt}`/`Argon2`，绝明文（见 `crypto/crypto-demo`）。
 - **JWT 难吊销**：短 access_token + refresh_token 换发；或维护黑名单。
 - **payload 非加密**：别放敏感信息，需要加密用 JWE。
 - **OAuth2 公共客户端必开 PKCE**：防授权码拦截；务必 HTTPS。

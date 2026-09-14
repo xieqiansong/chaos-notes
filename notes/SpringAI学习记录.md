@@ -1,6 +1,6 @@
 # Spring AI 学习记录
 
-工程依托：[jdk17-springai-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk17-platform/jdk17-springai-demo)（`chaos-java` 仓库，JDK17 + Spring Boot 3.5.14 + Spring AI 1.1.0，按「能力组/场景/单测」组织，每个场景一个 Service + 一个测试）。
+工程依托：[ai/springai-demo](https://github.com/xieqiansong/chaos-java/tree/main/ai/springai-demo)（`chaos-java` 仓库，JDK17 + Spring Boot 3.5.14 + Spring AI 1.1.0，按「能力组/场景/单测」组织，每个场景一个 Service + 一个测试）。
 
 ## 1. 安装
 
@@ -9,14 +9,14 @@
 ```bash
 # 模式一：本地 llama.cpp（默认，零成本、离线）
 llama-server.exe -m <model.gguf> --port 30040 -c 8192 -n 2048 -ngl 99 -t 8 -np 1 --reasoning off
-mvn -pl jdk17-springai-demo test
+mvn -pl ai/springai-demo test
 
 # RAG 还需 embedding 服务（无论对话走云端还是本地，embedding 都用本地模型）
 llama-server.exe -m <bge-m3.gguf> --port 30041 --embeddings --ubatch-size 2048
 
 # 模式二：云端 DeepSeek
 $env:DEEPSEEK_API_KEY="sk-xxxx"   # 只走环境变量，禁止写入 yml
-mvn -pl jdk17-springai-demo test -Dspring.profiles.active=deepseek
+mvn -pl ai/springai-demo test -Dspring.profiles.active=deepseek
 ```
 
 > 实测对比（9B 本地 vs DeepSeek v4-flash）：多轮记忆 277s 失败 vs 1.9s；流式 35.9s 空流 vs 1.7s；冒烟对话 17.9s 不稳定 vs 2.3s。
@@ -33,7 +33,7 @@ mvn -pl jdk17-springai-demo test -Dspring.profiles.active=deepseek
 | tools | 工具调用 | `ToolCallingService` | `@Tool` 定义与编排 |
 | rag | 检索增强生成 | `RagService` | 读取/切分/入库/检索/生成 |
 | rag | 生产向量库 | `RagService` + `VectorStoreConfig` | PgVector 持久化（pgvector profile） |
-| mcp | MCP 协议 | `McpChatService` + 独立服务端 | 远程工具调用（mcp profile + 启动 `jdk17-mcp-server-demo`）|
+| mcp | MCP 协议 | `McpChatService` + 独立服务端 | 远程工具调用（mcp profile + 启动 `ai/mcp-server-demo`）|
 
 ## 3. 向量库切换（内存 ↔ PgVector）
 
@@ -44,7 +44,7 @@ RAG 存储层统一走 `VectorStore` 接口，换存储**不改一行业务代�
 
 ```bash
 $env:PG_PASSWORD="<你的密码>"
-mvn -pl jdk17-springai-demo test -Dspring.profiles.active=deepseek,pgvector -Dtest=RagTest
+mvn -pl ai/springai-demo test -Dspring.profiles.active=deepseek,pgvector -Dtest=RagTest
 ```
 
 ## 踩坑（Spring AI 1.1.0）

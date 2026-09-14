@@ -1,6 +1,6 @@
 # 热路径 Servlet Filter 异步化：高频接口绕过 SpringMVC
 
-> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/jdk8-platform/jdk8-servlet-filter-async-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-servlet-filter-async-demo)。
+> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/engineering/servlet-filter-async-demo](https://github.com/xieqiansong/chaos-java/tree/master/engineering/servlet-filter-async-demo)。
 
 高频「收即 ack」型接口（心跳 / 状态上报 / 埋点回执）往往占整体 QPS 的大头，但真正有价值的业务处理（落库、Bitmap 置位、入批队列）其实可以延后。问题是：这类接口如果走完整的 SpringMVC 链路，每一步都是白付的 CPU 与反射开销，而且**并发上限被 Tomcat 线程池大小死死锁住**——一个慢下游就能占满线程、拖垮所有接口。
 

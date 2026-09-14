@@ -1,6 +1,6 @@
 # Sentinel 学习记录
 
-工程依托：[jdk8-sentinel-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-sentinel-demo)（`chaos-java` 仓库，Sentinel 1.8.6 + Spring Cloud Alibaba，程序化 `SphU` + `@SentinelResource` 双轨，含 Dashboard 与 Nacos 持久化）。
+工程依托：[jdk8-sentinel-demo](https://github.com/xieqiansong/chaos-java/tree/main/microservice/sentinel-demo)（`chaos-java` 仓库，Sentinel 1.8.6 + Spring Cloud Alibaba，程序化 `SphU` + `@SentinelResource` 双轨，含 Dashboard 与 Nacos 持久化）。
 
 ## 1. 安装
 

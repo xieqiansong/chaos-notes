@@ -1,6 +1,6 @@
 # Nacos 学习记录
 
-工程依托：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-nacos-demo)（`chaos-java` 仓库，注册中心 + 配置中心，多模块）。
+工程依托：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/microservice/nacos-demo)（`chaos-java` 仓库，注册中心 + 配置中心，多模块）。
 
 两件事：服务注册发现（地址动态寻址）、配置中心（动态推送，改配置不重启）。
 
@@ -141,6 +141,6 @@ curl -X POST 'http://localhost:8848/nacos/v1/cs/configs' \
 
 ## 参考来源
 
-- 工程：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-nacos-demo)（provider/consumer/config 三模块）
+- 工程：[jdk8-nacos-demo](https://github.com/xieqiansong/chaos-java/tree/main/microservice/nacos-demo)（provider/consumer/config 三模块）
 - PostgreSQL 数据源插件：[nacos-datasource-plugin-pg](https://github.com/pig-mesh/nacos-datasource-plugin-pg.git)（安装段 `plugins/postgresql/` 的 jar 来源）
 - 同类配置中心对比：Apollo（更强调权限/灰度）、Spring Cloud Config（Git 后端，无动态推送）

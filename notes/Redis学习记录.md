@@ -1,6 +1,6 @@
 # Redis 学习记录
 
-工程依托：[jdk8-redis-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-redis-demo)（`chaos-java` 仓库，Spring Data Redis + Redisson，多模块覆盖）。
+工程依托：[jdk8-redis-demo](https://github.com/xieqiansong/chaos-java/tree/main/cache/redis-demo)（`chaos-java` 仓库，Spring Data Redis + Redisson，多模块覆盖）。
 
 ## 1. 安装
 
@@ -145,5 +145,5 @@ SUBSCRIBE topic:news
 
 ## 参考来源
 
-- 工程：[jdk8-redis-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-redis-demo)
+- 工程：[jdk8-redis-demo](https://github.com/xieqiansong/chaos-java/tree/main/cache/redis-demo)
 - 性能专题：见 `performance/Redis批量入库-自适应批量大小.md`（批量命令量优化）

@@ -1,6 +1,6 @@
 # ZooKeeper 学习记录
 
-工程依托：[jdk8-zookeeper-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-zookeeper-demo)（`chaos-java` 仓库，Spring Boot 2.7 + Apache Curator 5.5.0，覆盖分布式锁/Leader选举/配置中心三个协调原语）。
+工程依托：[jdk8-zookeeper-demo](https://github.com/xieqiansong/chaos-java/tree/main/distributed/zookeeper-demo)（`chaos-java` 仓库，Spring Boot 2.7 + Apache Curator 5.5.0，覆盖分布式锁/Leader选举/配置中心三个协调原语）。
 
 ## 1. 安装
 

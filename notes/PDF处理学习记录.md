@@ -1,11 +1,11 @@
 # PDF 处理学习记录
 
-工程依托：[jdk8-pdf-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-office-tech/jdk8-pdf-demo)（`chaos-java` 仓库，基于 Apache PDFBox 3.0.x，覆盖绘制/字体嵌入/表格/提取/合并拆分/大文档内存横评）。
+工程依托：[jdk8-pdf-demo](https://github.com/xieqiansong/chaos-java/tree/main/office/pdf-demo)（`chaos-java` 仓库，基于 Apache PDFBox 3.0.x，覆盖绘制/字体嵌入/表格/提取/合并拆分/大文档内存横评）。
 
 ## 1. 安装
 
 ```bash
-cd jdk8-platform/jdk8-office-tech/jdk8-pdf-demo
+cd office/pdf-demo
 mvn test                                             # 编译 + 校验
 mvn exec:java -Dexec.mainClass=lan.chaos.pdf.DemoApp     # 分节打印每个能力（0 ~ 6）
 mvn exec:java -Dexec.mainClass=lan.chaos.pdf.DemoApp -Dbench.pages=500   # 大文档内存横评

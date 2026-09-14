@@ -1,16 +1,16 @@
 # MyBatis-Plus 学习记录
 
-工程依托：[jdk11-mybatis-plus-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk11-platform/jdk11-mybatis-plus-demo)（`chaos-java` 仓库，Spring Boot 2.7 + MyBatis-Plus 3.5.16，H2 内存库零外部依赖，覆盖 6 个高频实战能力）。
+工程依托：[jdk11-mybatis-plus-demo](https://github.com/xieqiansong/chaos-java/tree/main/persistence/mybatis-plus-jdk11-demo)（`chaos-java` 仓库，Spring Boot 2.7 + MyBatis-Plus 3.5.16，H2 内存库零外部依赖，覆盖 6 个高频实战能力）。
 
-> 本 demo 原位于 `jdk8-platform/jdk8-mybatis-plus-demo`，因 MyBatis-Plus 3.5.16 的拦截器模块 `mybatis-plus-jsqlparser`（自 3.5.9+ 从 extension 拆分）需 JDK 11+ 字节码，**无法在 JDK 8 编译**，故整体迁移到 `jdk11-platform`。
+> 本 demo 原位于 `persistence/mybatis-plus-jdk8-demo`，因 MyBatis-Plus 3.5.16 的拦截器模块 `mybatis-plus-jsqlparser`（自 3.5.9+ 从 extension 拆分）需 JDK 11+ 字节码，**无法在 JDK 8 编译**，故整体迁移到 `persistence`。
 
 ## 1. 安装
 
 ```bash
 # 在仓库根目录
-mvn -pl jdk11-platform/jdk11-mybatis-plus-demo -am test
+mvn -pl persistence/mybatis-plus-jdk11-demo -am test
 # 或看控制台分节输出
-cd jdk11-platform
+cd persistence
 mvn -pl jdk11-mybatis-plus-demo -am spring-boot:run
 ```
 
@@ -48,7 +48,7 @@ mvn -pl jdk11-mybatis-plus-demo -am spring-boot:run
 
 ## 踩坑
 
-- **JDK 版本坑**：MyBatis-Plus 自 3.5.9 起把分页/多租户等拦截器迁移到独立模块 `mybatis-plus-jsqlparser`，字节码要求 JDK 11+，无法在 JDK 8 编译运行——本 demo 因此落在 jdk11-platform。
+- **JDK 版本坑**：MyBatis-Plus 自 3.5.9 起把分页/多租户等拦截器迁移到独立模块 `mybatis-plus-jsqlparser`，字节码要求 JDK 11+，无法在 JDK 8 编译运行——本 demo 因此落在 persistence。
 - **联表分页用普通 QueryWrapper**：`LambdaQueryWrapper` 在 VO 上建不了 lambda 缓存，且排序列要用表别名限定避免歧义。
 - **`autoResultMap=true` 必须开**：否则读取时不走 TypeHandler，解密失败拿到密文。
 - **密钥硬编码仅演示**：生产字段加密密钥必须托管 KMS，且为按手机号查询额外存确定性哈希列。

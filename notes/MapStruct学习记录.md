@@ -1,12 +1,12 @@
 # MapStruct 学习记录
 
-工程依托：[jdk8-mapstruct-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-mapstruct-demo)（`chaos-java` 仓库，MapStruct 1.5.5 常见用法速查，按能力分包覆盖基础/集合/嵌套/自定义映射，纯编译期零外部依赖）。
+工程依托：[jdk8-mapstruct-demo](https://github.com/xieqiansong/chaos-java/tree/main/engineering/mapstruct-demo)（`chaos-java` 仓库，MapStruct 1.5.5 常见用法速查，按能力分包覆盖基础/集合/嵌套/自定义映射，纯编译期零外部依赖）。
 
 ## 1. 安装
 
 ```bash
-mvn -pl jdk8-platform/jdk8-mapstruct-demo test     # 12 条断言全过
-# 控制台分节打印：mvn -pl jdk8-platform/jdk8-mapstruct-demo exec:java -Dexec.mainClass=lan.chaos.mapstruct.DemoApp
+mvn -pl engineering/mapstruct-demo test     # 12 条断言全过
+# 控制台分节打印：mvn -pl engineering/mapstruct-demo exec:java -Dexec.mainClass=lan.chaos.mapstruct.DemoApp
 ```
 
 技术栈：MapStruct 1.5.5.Final + Lombok 1.18.30 + `lombok-mapstruct-binding` 桥接 + JUnit 5。

@@ -1,6 +1,6 @@
 # Spring Boot Starter 学习记录
 
-工程依托：[jdk8-starter-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-starter-demo)（`chaos-java` 仓库，用一个轻量零依赖的 `token-spring-boot-starter` 把自动装配机制讲透，功能只是载体、机制才是重点）。
+工程依托：[jdk8-starter-demo](https://github.com/xieqiansong/chaos-java/tree/main/engineering/starter-demo)（`chaos-java` 仓库，用一个轻量零依赖的 `token-spring-boot-starter` 把自动装配机制讲透，功能只是载体、机制才是重点）。
 
 ## 1. 安装
 

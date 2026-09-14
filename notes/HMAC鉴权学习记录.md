@@ -1,14 +1,14 @@
 # HMAC 鉴权学习记录
 
-工程依托：[jdk8-hmac-auth-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-tech/jdk8-hmac-auth-demo)（`chaos-java` 仓库，纯 JDK8 零依赖，把「集中存储 Token + 每请求读 Redis 校验」演进为「HMAC 无状态签名 + 本地验签」，覆盖签名/防重放/密钥轮换/吞吐对比四场景）。
+工程依托：[jdk8-hmac-auth-demo](https://github.com/xieqiansong/chaos-java/tree/main/crypto/hmac-auth-demo)（`chaos-java` 仓库，纯 JDK8 零依赖，把「集中存储 Token + 每请求读 Redis 校验」演进为「HMAC 无状态签名 + 本地验签」，覆盖签名/防重放/密钥轮换/吞吐对比四场景）。
 
 > 业务实体已泛化为 device / 上报请求，不含任何业务与公司隐私信息。
 
 ## 1. 安装
 
 ```bash
-mvn -q -pl jdk8-tech/jdk8-hmac-auth-demo test     # 签名/篡改/时间窗/重放/轮换 单测
-java -cp jdk8-tech/jdk8-hmac-auth-demo/target/classes lan.chaos.hmac.HmacAuthDemo   # 四场景演示 + 吞吐对比
+mvn -q -pl crypto/hmac-auth-demo test     # 签名/篡改/时间窗/重放/轮换 单测
+java -cp crypto/hmac-auth-demo/target/classes lan.chaos.hmac.HmacAuthDemo   # 四场景演示 + 吞吐对比
 ```
 
 ## 2. 演进背景

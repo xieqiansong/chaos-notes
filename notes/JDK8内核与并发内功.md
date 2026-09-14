@@ -1,6 +1,6 @@
 # Java 内核与并发内功（学习进度 · 场景清单）
 
-> 工程来源：[chaos-java/jdk8-base](https://github.com/your-username/chaos/blob/main/chaos-java/jdk8-platform/jdk8-base)
+> 工程来源：[chaos-java/java-core/jdk8-base](https://github.com/xieqiansong/chaos-java/tree/main/java-core/jdk8-base)
 > 分类：学习类 · 记录覆盖的场景 / 功能清单 + 掌握程度
 > 定位：这是「Java 内功」仓库，106 个可运行例子，讲清底层原理的实战底气来源。
 

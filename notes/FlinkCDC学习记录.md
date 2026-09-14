@@ -1,6 +1,6 @@
 # Flink CDC 学习记录
 
-工程依托：[jdk8-flink-cdc-sync-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-tech/jdk8-flink-cdc-sync-demo)（`chaos-java` 仓库，基于 Flink CDC `flink-connector-mysql-cdc` 的 MySQL 增量同步示例，将源表实时同步到同实例目标表（表名加 `_new`））。
+工程依托：[jdk8-flink-cdc-sync-demo](https://github.com/xieqiansong/chaos-java/tree/main/persistence/flink-cdc-sync-demo)（`chaos-java` 仓库，基于 Flink CDC `flink-connector-mysql-cdc` 的 MySQL 增量同步示例，将源表实时同步到同实例目标表（表名加 `_new`））。
 
 ## 1. 安装
 
@@ -15,7 +15,7 @@ mvn -o package
 flink run target/jdk8-flink-cdc-sync-demo-1.0.0.jar
 ```
 
-> 运行环境 JDK 8（Flink 1.17 不兼容 JDK21，故放 `jdk8-tech` 而非 `jdk21-tech`）。
+> 运行环境 JDK 8（Flink 1.17 不兼容 JDK21，故放 `persistence` 而非 `engineering`）。
 
 ## 2. 功能
 

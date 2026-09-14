@@ -1,6 +1,6 @@
 # Elasticsearch 学习记录
 
-工程依托：[jdk8-elasticsearch-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-elasticsearch-demo)（`chaos-java` 仓库，ES 7.17.10 + Spring Data Elasticsearch 4.4，Testcontainers 集成测试，索引/文档/搜索/聚合全覆盖）。
+工程依托：[jdk8-elasticsearch-demo](https://github.com/xieqiansong/chaos-java/tree/main/persistence/elasticsearch-demo)（`chaos-java` 仓库，ES 7.17.10 + Spring Data Elasticsearch 4.4，Testcontainers 集成测试，索引/文档/搜索/聚合全覆盖）。
 
 ## 1. 安装
 

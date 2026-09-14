@@ -1,6 +1,6 @@
 # 多租户分布式限流：Redis+Lua → 本地+Redis 双层限流
 
-> 性能优化 · 实战案例（有取舍、有量化）。对应 GitHub 工程：[chaos-java/jdk8-platform/jdk8-ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo)。
+> 性能优化 · 实战案例（有取舍、有量化）。对应 GitHub 工程：[chaos-java/distributed/ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/distributed/ratelimiter-demo)。
 
 多租户场景，每个租户有独立全局限额（QPS），集群多节点共同承担流量，需要**跨节点**保证不超限。
 
@@ -31,11 +31,11 @@
 
 ## 压测方案
 
-基准已做成 **SpringBootTest 一键跑**：场景矩阵在工程 [BenchMarkTest](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo/src/test/java/lan/chaos/ratelimiter/BenchMarkTest.java) 定义，`mvn test` 即跑完并自动写出 markdown，对应工程 `TEST_REPORT.md`。
+基准已做成 **SpringBootTest 一键跑**：场景矩阵在工程 [BenchMarkTest](https://github.com/xieqiansong/chaos-java/tree/master/distributed/ratelimiter-demo/src/test/java/lan/chaos/ratelimiter/BenchMarkTest.java) 定义，`mvn test` 即跑完并自动写出 markdown，对应工程 `TEST_REPORT.md`。
 
 - 指标：`avg / p99`（µs）；`redis/s`（Redis 调用频率，含 EVAL/EVALSHA）；`overLimit%`（实际放行相对理论限额偏差，正=超限、负=欠用）。
 - 三档实现对照；场景：未超限（A）、超限（B）、burst 敏感、流量倾斜（skew）、满速 flood。
-- 每场景前自动 `flushDb` 隔离 key 残留；压测引擎 [BenchEngine](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo/src/main/java/lan/chaos/ratelimiter/bench/BenchEngine.java) 供命令行与测试共用。
+- 每场景前自动 `flushDb` 隔离 key 残留；压测引擎 [BenchEngine](https://github.com/xieqiansong/chaos-java/tree/master/distributed/ratelimiter-demo/src/main/java/lan/chaos/ratelimiter/bench/BenchEngine.java) 供命令行与测试共用。
 
 ### 实测一：三实现基准对照（本机 Redis 8、8 线程）
 
@@ -88,5 +88,5 @@
 
 ## 参考来源
 
-- 关联工程：[chaos-java/jdk8-platform/jdk8-ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk8-platform/jdk8-ratelimiter-demo)
+- 关联工程：[chaos-java/distributed/ratelimiter-demo](https://github.com/xieqiansong/chaos-java/tree/master/distributed/ratelimiter-demo)
 - 令牌桶 Lua 实现参考 Redis 官方/通用令牌桶脚本写法（仅思路，无源码搬运）

@@ -1,11 +1,11 @@
 # Excel 处理学习记录
 
-工程依托：[jdk8-excel-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-office-tech/jdk8-excel-demo)（`chaos-java` 仓库，覆盖原生 POI / EasyExcel / Hutool 三大体系的读写、大文件流式、模板填充，并用相同数据做导入/导出压测横评）。
+工程依托：[jdk8-excel-demo](https://github.com/xieqiansong/chaos-java/tree/main/office/excel-demo)（`chaos-java` 仓库，覆盖原生 POI / EasyExcel / Hutool 三大体系的读写、大文件流式、模板填充，并用相同数据做导入/导出压测横评）。
 
 ## 1. 安装
 
 ```bash
-cd jdk8-platform/jdk8-office-tech/jdk8-excel-demo
+cd office/excel-demo
 mvn test     # 跑全部测试（含横评），零外部依赖
 mvn exec:java -Dexec.mainClass=lan.chaos.excel.DemoApp   # 分节打印每个能力（0 ~ 8）
 mvn test -Dtest=ExcelBenchTest -Dbench.rows=100000       # 大文件下看内存分野

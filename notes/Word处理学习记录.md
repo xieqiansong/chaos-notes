@@ -1,11 +1,11 @@
 # Word 处理学习记录
 
-工程依托：[jdk8-word-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-office-tech/jdk8-word-demo)（`chaos-java` 仓库，基于 Apache POI 5.5.1，覆盖结构化文档/样式/复杂表格/读取/模板填充/大文档内存横评）。
+工程依托：[jdk8-word-demo](https://github.com/xieqiansong/chaos-java/tree/main/office/word-demo)（`chaos-java` 仓库，基于 Apache POI 5.5.1，覆盖结构化文档/样式/复杂表格/读取/模板填充/大文档内存横评）。
 
 ## 1. 安装
 
 ```bash
-cd jdk8-platform/jdk8-office-tech/jdk8-word-demo
+cd office/word-demo
 mvn test     # 编译 + 校验
 mvn exec:java -Dexec.mainClass=lan.chaos.word.DemoApp     # 分节打印每个能力（0 ~ 6）
 mvn exec:java -Dexec.mainClass=lan.chaos.word.DemoApp -Dbench.rows=20000   # 大文档内存横评

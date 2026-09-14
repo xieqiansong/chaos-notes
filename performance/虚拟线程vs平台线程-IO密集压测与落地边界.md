@@ -1,6 +1,6 @@
 # 虚拟线程 vs 平台线程：IO 密集压测量化与落地边界
 
-> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/jdk21-platform/jdk21-tech/jdk21-virtualthread-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk21-platform/jdk21-tech/jdk21-virtualthread-demo)。
+> 性能优化 · 实战案例。对应 GitHub 工程：[chaos-java/engineering/virtualthread-demo](https://github.com/xieqiansong/chaos-java/tree/master/engineering/virtualthread-demo)。
 
 一个聚合查询接口，要并行查好几个统计指标（各查各的表、各调各的服务），接口里几乎全是等待——等 DB、等远程调用。原来的模型是 Tomcat 默认线程池（200 线程）+ 业务侧聚合查询，一压就排队：线程被阻塞占满，多出来的请求堆在队列里，接口 p99 先崩。
 
@@ -151,6 +151,6 @@ JDK 内置 `HttpServer`，唯一变量是 `setExecutor()` 传进去的执行器�
 
 ## 参考来源
 
-- 关联工程：[chaos-java/jdk21-platform/jdk21-tech/jdk21-virtualthread-demo](https://github.com/xieqiansong/chaos-java/tree/master/jdk21-platform/jdk21-tech/jdk21-virtualthread-demo)
+- 关联工程：[chaos-java/engineering/virtualthread-demo](https://github.com/xieqiansong/chaos-java/tree/master/engineering/virtualthread-demo)
 - 全部数据来自该工程 `BenchMarkTest` 一键跑出的实测结果（含踩坑记录，见工程 `TEST_REPORT.md`）
 - 规范参考：JEP 444（虚拟线程）、JEP 491（JDK 24 修复 synchronized pinning）

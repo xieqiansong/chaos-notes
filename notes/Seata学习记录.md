@@ -1,6 +1,6 @@
 # Seata 学习记录
 
-工程依托：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（`chaos-java` 仓库，AT + TCC 两种模式，多进程）。
+工程依托：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/distributed/seata-demo)（`chaos-java` 仓库，AT + TCC 两种模式，多进程）。
 
 微服务下「扣款 / 下单 / 扣库存」分属不同库，本地事务互不感知，需要协调者保证要么全成、要么全回滚。Seata 就是这个协调框架，核心是 TC（协调者）+ TM（发起方）+ RM（各分支）。
 
@@ -104,5 +104,5 @@ curl -X GET 'http://localhost:30106/v1/transaction/global/list?pageNum=1&pageSiz
 
 ## 参考来源
 
-- 工程：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/jdk8-platform/jdk8-seata-demo)（AT: `at/`、TCC: `tcc/`）
+- 工程：[jdk8-seata-demo](https://github.com/xieqiansong/chaos-java/tree/main/distributed/seata-demo)（AT: `at/`、TCC: `tcc/`）
 - 与 RocketMQ 事务消息、Kafka 事务的关系：三者都在解决「跨资源一致性」，但层次不同（见 Kafka / RocketMQ 学习记录）
