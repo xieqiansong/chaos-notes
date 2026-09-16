@@ -36,4 +36,4 @@ chaos-notes/
 
 ## 结构提示
 
-内容会从 `chaos-knots` 精选迁移而来，逐篇沉淀；公开范围与策略以 `xieqiansong/xieqiansong` 仓库的整理路线为准。
+公开范围与策略以 `xieqiansong/xieqiansong` 仓库的整理路线为准。
