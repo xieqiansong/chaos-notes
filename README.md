@@ -72,6 +72,11 @@
 | [Spring AI 学习记录](notes/SpringAI学习记录.md) | AI / 对话、流式、记忆、结构化输出、工具、RAG、MCP | 2026-09-02 |
 | [接口幂等学习记录](notes/接口幂等学习记录.md) | 幂等 / 请求级、消费级、状态机级三层去重 | 2026-08-26 |
 | [多级缓存学习记录](notes/多级缓存学习记录.md) | 缓存 / Caffeine+Redis Hash+版本号一致性 | 2026-08-26 |
+| [OAuth2 授权服务器与 Token 生命周期](notes/OAuth2授权服务器与Token生命周期.md) | OAuth2 / 手写授权服务器、授权码+PKCE、JWT access+不透明 refresh、滚动刷新、撤销黑名单、JWKS | 2026-10 |
+| [RabbitMQ 学习记录](notes/RabbitMQ学习记录.md) | 消息队列 / Exchange 路由、Publisher Confirm、手动 Ack、TTL+DLX、可靠性 | 2026-09 |
+| [WebFlux 响应式编程学习记录](notes/WebFlux响应式编程学习记录.md) | 响应式 / Reactor、背压、RouterFunction、WebClient | 2026-09 |
+| [MQTT 学习记录](notes/MQTT学习记录.md) | 物联网 / 发布订阅、通配符、QoS 0/1/2、保留消息、遗嘱 | 2026-09 |
+| [Paxos 与 Raft 一致性算法](notes/Paxos与Raft一致性算法.md) | 分布式 / 最小 Paxos、Raft 选举与日志复制、状态机断言 | 2026-09 |
 
 > 内容整理中，逐篇沉淀。
 
